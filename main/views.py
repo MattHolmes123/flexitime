@@ -1,5 +1,6 @@
 from datetime import timedelta
 
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.utils import timezone
 
@@ -7,7 +8,7 @@ from django.utils import timezone
 from .models import FlexiTimeLog
 
 
-def index(request):
+def index(request: HttpRequest) -> HttpResponse:
     """View function for home page of site."""
 
     # Generate counts of some of the main objects
@@ -21,7 +22,7 @@ def index(request):
     return render(request, 'index.html', context=context)
 
 
-def this_week(request):
+def this_week(request: HttpRequest) -> HttpResponse:
     """View function for this weeks rota for the logged in user."""
 
     # print(request.user.is_authenticated)
@@ -46,3 +47,8 @@ def this_week(request):
     }
 
     return render(request, 'this_week.html', context=context)
+
+
+# TODO: https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Forms
+def edit_today(request: HttpRequest, pk: int) -> HttpResponse:
+    pass
