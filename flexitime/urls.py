@@ -16,10 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from main import urls as main_urls
+from main import urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # TODO Move this to somewhere else
-    path('flexitime/', include(main_urls))
+    path('flexitime/', include(urls))
 ]
