@@ -1,9 +1,16 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <h1>This week</h1>
-  <p>record counts:</p>
-  <ul>
-    <li><strong>Total Records:</strong> {{ total_records }}</li>
-  </ul>
+    <h1>This week</h1>
+    <p>record counts:</p>
+    <ul>
+        <li><strong>Total Records:</strong> {{ total_records }}</li>
+    </ul>
+
+    <h2>Flexitime logs</h2>
+    <ul>
+        {% for entry in flexitime_list %}
+            <li>{{ entry.created_at }}: {{ entry.logged_in }} - {{ entry.break_duration }} - {{ entry.logged_out }}</li>
+        {% endfor %}
+    </ul>
 {% endblock %}

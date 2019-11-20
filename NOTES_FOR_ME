@@ -1,0 +1,6 @@
+# Have a read of this:
+http://books.agiliq.com/projects/djenofdjango/en/latest/chapter4.html
+# WeekArchiveView and MonthArchiveView
+
+# lists class based view template names
+https://stackoverflow.com/questions/50755550/what-are-naming-rules-of-templates-in-django-class-based-views

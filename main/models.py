@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
-
+from django.urls import reverse
 WORKING_DAY = datetime.timedelta(hours=7.5)
 
 
@@ -33,6 +33,9 @@ class FlexiTimeLog(models.Model):
             return datetime.timedelta(0)
 
         return ((time_out - time_in) - lunch_break) - WORKING_DAY
+
+    def get_absolute_url(self):
+        return reverse('flexitimelog_update', args=[str(self.id)])
 
     def __str__(self):
         return f'{self.user}, {self.logged_in}, {self.break_duration}, {self.logged_out}'

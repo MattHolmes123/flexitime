@@ -1,54 +1,68 @@
 from datetime import timedelta
 
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.utils import timezone
+from django.views.generic.base import TemplateView
+from django.views.generic.list import ListView
+from django.views.generic.edit import CreateView, UpdateView
 
 # Create your views here.
 from .models import FlexiTimeLog
 
 
-def index(request: HttpRequest) -> HttpResponse:
-    """View function for home page of site."""
+# TODO - Implement login
+@method_decorator(login_required, name='dispatch')
+class Index(TemplateView):
+    template_name = 'index.html'
 
-    # Generate counts of some of the main objects
-    total_records = FlexiTimeLog.objects.all().count()
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['total_records'] = FlexiTimeLog.objects.all().count()
 
-    context = {
-        'total_records': total_records,
-    }
-
-    # Render the HTML template index.html with the data in the context variable
-    return render(request, 'index.html', context=context)
+        return context
 
 
-def this_week(request: HttpRequest) -> HttpResponse:
-    """View function for this weeks rota for the logged in user."""
+@method_decorator(login_required, name='dispatch')
+class ThisWeek(ListView):
+    template_name = 'this_week.html'
+    context_object_name = 'flexitime_list'
 
-    # print(request.user.is_authenticated)
+    def get_queryset(self):
+        today = timezone.now().date()
+        diff = 0
+        # 1 = Monday, 7 = Sunday
+        weekday = today.isoweekday()
 
-    today = timezone.now().date()
-    diff = 0
-    # 1 = Monday, 7 = Sunday
-    weekday = today.isoweekday()
+        if weekday > 1:
+            diff = weekday - 1
 
-    if weekday > 1:
-        diff = weekday - 1
+        monday = today - timedelta(days=diff)
 
-    monday = today - timedelta(days=diff)
+        return FlexiTimeLog.objects.filter(
+            user=self.request.user,
+            created_at__date__gte=monday,
+        )
 
-    records = FlexiTimeLog.objects.filter(
-        user=request.user,
-        created_at__date__gte=monday,
-    )
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['total_records'] = self.object_list.count()
 
-    context = {
-        'total_records': records.count(),
-    }
-
-    return render(request, 'this_week.html', context=context)
+        return context
 
 
-# TODO: https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Forms
-def edit_today(request: HttpRequest, pk: int) -> HttpResponse:
-    pass
+class FlexiTimeLogCreate(CreateView):
+    model = FlexiTimeLog
+    fields = ['logged_in', 'break_duration', 'logged_out']
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+
+        return super().form_valid(form)
+
+
+class FlexiTimeLogUpdate(UpdateView):
+    model = FlexiTimeLog
+    fields = ['logged_in', 'break_duration', 'logged_out']
