@@ -1,43 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  {% block title %}<title>Flexitime Tracker</title>{% endblock %}
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-  <!-- Add additional CSS in static file -->
-  {% load static %}
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% block title %}<title>Flexitime Tracker</title>{% endblock %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+    <!-- Add additional CSS in static file -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
+
+{% include 'navigation.html' %}
+
 <body>
-  <div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-12">
-            {% if messages %}
-                <ul class='messages'>
-                    {% for message in messages %}
-                        <li id="message_{{ forloop.counter }}"
-                            {% if message.tags %} class="{{ message.tags }}"{% endif %}
-                        >
-                            {{ message }}
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
+    <section class="section">
+        {% if messages %}
+            <div class="container is-fluid">
+                <div class="notification">
+                    <ul class='messages'>
+                        {% for message in messages %}
+                            <li id="message_{{ forloop.counter }}"
+                                {% if message.tags %} class="{{ message.tags }}"{% endif %}
+                            >
+                                {{ message }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="container is-fluid">
+            <h1 class="title">
+                Flexitime
+            </h1>
+            <p class="subtitle">
+                My first website with <strong>Bulma</strong>!
+            </p>
+            {% block content %}{% endblock %}
         </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-2">
-      {% block sidebar %}
-        <ul class="sidebar-nav">
-          <li><a href="{% url 'index' %}">Home</a></li>
-          <li><a href="{% url 'this_week' %}">This weeks time</a></li>
-          <li><a href="{% url 'create' %}">Edit daily rota</a></li>
-        </ul>
-     {% endblock %}
-      </div>
-      <div class="col-sm-10 ">{% block content %}{% endblock %}</div>
-    </div>
-  </div>
+    </section>
 </body>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Flexitime</strong> by <a href="https://github.com/MattHolmes123">Matthew Holmes</a>. The source code is licensed
+      <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+      is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+    </p>
+  </div>
+</footer>
 </html>
