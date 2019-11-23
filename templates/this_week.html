@@ -1,16 +1,23 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-    <h1>This week</h1>
-    <p>record counts:</p>
-    <ul>
-        <li><strong>Total Records:</strong> {{ total_records }}</li>
-    </ul>
-
-    <h2>Flexitime logs</h2>
-    <ul>
-        {% for entry in flexitime_list %}
-            <li>{{ entry.created_at }}: {{ entry.logged_in }} - {{ entry.break_duration }} - {{ entry.logged_out }}</li>
-        {% endfor %}
-    </ul>
+    <h1 class="title">This week</h1>
+    <p class="subtitle"><strong>Total Records:</strong> {{ total_records }}</p>
+    <p>Flexitime logs</p>
+    <div class="columns">
+        <div class="column">Created at</div>
+        <div class="column">Logged in </div>
+        <div class="column">Break duration</div>
+        <div class="column">Logged out</div>
+        <div class="column">Edit</div>
+    </div>
+    {% for entry in flexitime_list %}
+        <div class="columns">
+            <div class="column">{{ entry.created_at }}</div>
+            <div class="column">{{ entry.logged_in }}</div>
+            <div class="column">{{ entry.break_duration }}</div>
+            <div class="column">{{ entry.logged_out }}</div>
+            <div class="column"><a href="{{ entry.get_absolute_url }}">Edit</a></div>
+        </div>
+    {% endfor %}
 {% endblock %}
