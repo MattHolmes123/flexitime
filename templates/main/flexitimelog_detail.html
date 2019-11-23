@@ -1,0 +1,15 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    {{ flexitimelog.logged_in }}
+    {{ flexitimelog.break_duration }}
+    {{ flexitimelog.logged_out }}
+    {{ flexitimelog.created_at }}
+    {{ flexitimelog.updated_at }}
+{# We can access the loaded model like so. #}
+{#    {{ object.logged_in }}#}
+{#    {{ object.break_duration }}#}
+{#    {{ object.logged_out }}#}
+{#    {{ object.created_at }}#}
+{#    {{ object.updated_at }}#}
+{% endblock %}

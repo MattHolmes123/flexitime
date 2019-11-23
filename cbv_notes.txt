@@ -1,0 +1,20 @@
+
+
+Name            |  Purpose
+============================================================================
+TemplateView    | Display a django HTML Template
+ListView        | List objects
+DetailView      | Display an object
+FormView        | Submit a form
+CreateView      | Create an object
+UpdateView      | Update an object
+DeleteView      | Delete an object
+GenericDateView | For display of objects that occur over a range of time
+
+
+
+Other notes:
+when model is Foobar
+for ListView: foobar_list.html
+for CreateView: foobar_form.html
+for DetailView: foobar_detail.html

@@ -12,12 +12,27 @@
 <body>
   <div class="container-fluid">
     <div class="row">
+        <div class="col-sm-12">
+            {% if messages %}
+                <ul class='messages'>
+                    {% for message in messages %}
+                        <li id="message_{{ forloop.counter }}"
+                            {% if message.tags %} class="{{ message.tags }}"{% endif %}
+                        >
+                            {{ message }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
       <div class="col-sm-2">
       {% block sidebar %}
         <ul class="sidebar-nav">
           <li><a href="{% url 'index' %}">Home</a></li>
-          <li><a href="{% url 'this-week' %}">This weeks time</a></li>
-          <li><a href="{% url 'flexitimelog_create' %}">Edit daily rota</a></li>
+          <li><a href="{% url 'this_week' %}">This weeks time</a></li>
+          <li><a href="{% url 'create' %}">Edit daily rota</a></li>
         </ul>
      {% endblock %}
       </div>

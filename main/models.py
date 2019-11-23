@@ -35,7 +35,7 @@ class FlexiTimeLog(models.Model):
         return ((time_out - time_in) - lunch_break) - WORKING_DAY
 
     def get_absolute_url(self):
-        return reverse('flexitimelog_update', args=[str(self.id)])
+        return reverse('update', kwargs={'pk': str(self.id)})
 
     def __str__(self):
         return f'{self.user}, {self.logged_in}, {self.break_duration}, {self.logged_out}'

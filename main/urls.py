@@ -4,7 +4,8 @@ from . import views as main_views
 
 urlpatterns = [
     path('', main_views.Index.as_view(), name='index'),
-    path('this-week', main_views.ThisWeek.as_view(), name='this-week'),
-    path('create/', main_views.FlexiTimeLogCreate.as_view(), name='flexitimelog_create'),
-    path('update/<int:pk>', main_views.FlexiTimeLogUpdate.as_view(), name='flexitimelog_update'),
+    path('this_week', main_views.ThisWeek.as_view(), name='this_week'),
+    path('create/', main_views.FlexiTimeLogCreateView.as_view(), name='create'),
+    path('update/<int:pk>', main_views.FlexiTimeLogUpdateView.as_view(), name='update'),
+    path('detail/<int:pk>', main_views.FlexiTimeLogDetailView.as_view(), name='detail')
 ]

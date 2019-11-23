@@ -1,19 +1,22 @@
 from datetime import timedelta
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.utils import timezone
+from django.views.generic import DetailView
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView
 
 # Create your views here.
+from .forms import EditFlexiTimeForm
 from .models import FlexiTimeLog
 
 
-# TODO - Implement login
+# TODO - Implement login / Use the mixin
 @method_decorator(login_required, name='dispatch')
 class Index(TemplateView):
     template_name = 'index.html'
@@ -53,16 +56,36 @@ class ThisWeek(ListView):
         return context
 
 
-class FlexiTimeLogCreate(CreateView):
-    model = FlexiTimeLog
-    fields = ['logged_in', 'break_duration', 'logged_out']
+class FlexiTimeLogActionMixin:
+    form_class = EditFlexiTimeForm
+    context_object_name = 'flexitimelog'
+
+    @property
+    def success_msg(self):
+        return NotImplemented
+
+    def set_form_user(self, form):
+        pass
 
     def form_valid(self, form):
+        self.set_form_user(form)
+        messages.info(self.request, self.success_msg)
+
+        return super(FlexiTimeLogActionMixin, self).form_valid(form)
+
+
+class FlexiTimeLogCreateView(FlexiTimeLogActionMixin, CreateView):
+    model = FlexiTimeLog
+    success_msg = 'FlexiTimeLog created'
+
+    def set_form_user(self, form):
         form.instance.user = self.request.user
 
-        return super().form_valid(form)
 
-
-class FlexiTimeLogUpdate(UpdateView):
+class FlexiTimeLogUpdateView(FlexiTimeLogActionMixin, UpdateView):
     model = FlexiTimeLog
-    fields = ['logged_in', 'break_duration', 'logged_out']
+    success_msg = 'FlexiTimeLog Updated'
+
+
+class FlexiTimeLogDetailView(DetailView):
+    model = FlexiTimeLog
