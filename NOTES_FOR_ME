@@ -4,3 +4,8 @@ http://books.agiliq.com/projects/djenofdjango/en/latest/chapter4.html
 
 # lists class based view template names
 https://stackoverflow.com/questions/50755550/what-are-naming-rules-of-templates-in-django-class-based-views
+
+# Mypy stuff
+http://mypy-lang.org/
+https://mypy.readthedocs.io/en/stable/
+https://mypy.readthedocs.io/en/latest/cheat_sheet_py3.html
