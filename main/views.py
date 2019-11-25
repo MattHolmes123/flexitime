@@ -1,18 +1,14 @@
-from datetime import timedelta
-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
-from django.utils import timezone
 from django.views.generic import DetailView
 from django.views.generic.base import TemplateView
-from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.list import ListView
 
 # Create your views here.
 from .forms import EditFlexiTimeForm
+from .lib.overtime import get_currrent_weeks_overtime, get_this_weeks_logs
 from .models import FlexiTimeLog
 
 
@@ -23,7 +19,7 @@ class Index(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['total_records'] = FlexiTimeLog.objects.all().count()
+        context['weekly_overtime'] = get_currrent_weeks_overtime(self.request.user)
 
         return context
 
@@ -34,20 +30,7 @@ class ThisWeek(ListView):
     context_object_name = 'flexitime_list'
 
     def get_queryset(self):
-        today = timezone.now().date()
-        diff = 0
-        # 1 = Monday, 7 = Sunday
-        weekday = today.isoweekday()
-
-        if weekday > 1:
-            diff = weekday - 1
-
-        monday = today - timedelta(days=diff)
-
-        return FlexiTimeLog.objects.filter(
-            user=self.request.user,
-            created_at__date__gte=monday,
-        )
+        return get_this_weeks_logs(self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
