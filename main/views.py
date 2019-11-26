@@ -1,5 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView
 from django.views.generic.base import TemplateView
@@ -55,6 +57,25 @@ class FlexiTimeLogActionMixin:
         messages.info(self.request, self.success_msg)
 
         return super(FlexiTimeLogActionMixin, self).form_valid(form)
+
+
+def edit_today(request):
+    """Either loads the create or update view.
+
+    :param request: Http request
+    :return: HttpResponse
+    """
+
+    try:
+        log = FlexiTimeLog.objects.get(
+            user=request.user,
+            created_at__date=timezone.now().date()
+        )
+
+        return redirect(log)
+
+    except FlexiTimeLog.DoesNotExist:
+        return redirect('create')
 
 
 class FlexiTimeLogCreateView(FlexiTimeLogActionMixin, CreateView):
