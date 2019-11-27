@@ -20,5 +20,8 @@ from main import urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('flexitime/', include(urls))
+    path('flexitime/', include(urls)),
+
+    # see templates/registration/*.html for templates
+    path('accounts/', include('django.contrib.auth.urls')),
 ]

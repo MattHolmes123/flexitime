@@ -15,6 +15,7 @@
         <div class="columns">
             <div class="column">{{ entry.created_at }}</div>
             <div class="column">{{ entry.logged_in }}</div>
+            {# TODO: Change the format of this (don't display as a time) #}
             <div class="column">{{ entry.break_duration }}</div>
             <div class="column">{{ entry.logged_out }}</div>
             <div class="column"><a href="{{ entry.get_absolute_url }}">Edit</a></div>

@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.utils import timezone
 from django.utils.decorators import method_decorator
@@ -8,15 +9,12 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 
-# Create your views here.
 from .forms import EditFlexiTimeForm
 from .models import FlexiTimeLog
 from .services.overtime import OvertimeService
 
 
-# TODO - Implement login / Use the mixin
-@method_decorator(login_required, name='dispatch')
-class Index(TemplateView):
+class Index(LoginRequiredMixin, TemplateView):
     template_name = 'index.html'
 
     def get_context_data(self, **kwargs):
@@ -27,8 +25,7 @@ class Index(TemplateView):
         return context
 
 
-@method_decorator(login_required, name='dispatch')
-class ThisWeek(ListView):
+class ThisWeek(LoginRequiredMixin, ListView):
     template_name = 'this_week.html'
     context_object_name = 'flexitime_list'
 
@@ -60,6 +57,7 @@ class FlexiTimeLogActionMixin:
         return super(FlexiTimeLogActionMixin, self).form_valid(form)
 
 
+@method_decorator(login_required, name='dispatch')
 def edit_today(request):
     """Either loads the create or update view.
 
@@ -79,7 +77,7 @@ def edit_today(request):
         return redirect('create')
 
 
-class FlexiTimeLogCreateView(FlexiTimeLogActionMixin, CreateView):
+class FlexiTimeLogCreateView(LoginRequiredMixin, FlexiTimeLogActionMixin, CreateView):
     model = FlexiTimeLog
     success_msg = 'FlexiTimeLog created'
 
@@ -87,10 +85,10 @@ class FlexiTimeLogCreateView(FlexiTimeLogActionMixin, CreateView):
         form.instance.user = self.request.user
 
 
-class FlexiTimeLogUpdateView(FlexiTimeLogActionMixin, UpdateView):
+class FlexiTimeLogUpdateView(LoginRequiredMixin, FlexiTimeLogActionMixin, UpdateView):
     model = FlexiTimeLog
     success_msg = 'FlexiTimeLog Updated'
 
 
-class FlexiTimeLogDetailView(DetailView):
+class FlexiTimeLogDetailView(LoginRequiredMixin, DetailView):
     model = FlexiTimeLog

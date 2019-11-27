@@ -1,13 +1,10 @@
 import datetime
 
 from django.contrib.auth.models import User
+from django.conf import settings
 from django.utils import timezone
 
 from ..models import FlexiTimeLog
-
-
-# TODO - Consider making this a setting that is configured at initial setup.
-WORKING_DAY = datetime.timedelta(hours=7.5)
 
 
 class OvertimeService:
@@ -69,7 +66,7 @@ def _calculate_overtime_for_log(log: FlexiTimeLog) -> datetime.timedelta:
         return datetime.timedelta(0)
 
     else:
-        return ((time_out - time_in) - lunch_break) - WORKING_DAY
+        return ((time_out - time_in) - lunch_break) - settings.WORKING_DAY
 
 
 def time_as_td(dt: datetime.time) -> datetime.timedelta:

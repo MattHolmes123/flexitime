@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
+import datetime
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -126,3 +127,11 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
+
+LOGIN_REDIRECT_URL = '/flexitime/'
+
+# THIS Will print emails that will be sent to the console (until its configured properly).
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# How long a working day is.
+WORKING_DAY = datetime.timedelta(hours=7.5)

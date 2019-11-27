@@ -14,3 +14,6 @@ https://mypy.readthedocs.io/en/latest/cheat_sheet_py3.html
 
 # Read this about django redirects.
 https://realpython.com/django-redirects/#the-redirectview-class-based-view
+
+# If you need password reset etc continue this:
+https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication
