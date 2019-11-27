@@ -10,8 +10,8 @@ from django.views.generic.list import ListView
 
 # Create your views here.
 from .forms import EditFlexiTimeForm
-from .lib.overtime import get_currrent_weeks_overtime, get_this_weeks_logs
 from .models import FlexiTimeLog
+from .services.overtime import OvertimeService
 
 
 # TODO - Implement login / Use the mixin
@@ -20,8 +20,9 @@ class Index(TemplateView):
     template_name = 'index.html'
 
     def get_context_data(self, **kwargs):
+        ot_service = OvertimeService(self.request.user)
         context = super().get_context_data(**kwargs)
-        context['weekly_overtime'] = get_currrent_weeks_overtime(self.request.user)
+        context['weekly_overtime'] = ot_service.get_current_weeks_overtime()
 
         return context
 
@@ -32,7 +33,7 @@ class ThisWeek(ListView):
     context_object_name = 'flexitime_list'
 
     def get_queryset(self):
-        return get_this_weeks_logs(self.request.user)
+        return OvertimeService(self.request.user).get_this_weeks_logs()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

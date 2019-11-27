@@ -10,44 +10,48 @@ from ..models import FlexiTimeLog
 WORKING_DAY = datetime.timedelta(hours=7.5)
 
 
-def get_currrent_weeks_overtime(user: User) -> datetime.timedelta:
-    """returns overtime for current week
+class OvertimeService:
 
-    :param user: Django request.user
-    :return: Overtime this week for supplied user.
-    """
+    def __init__(self, user: User):
+        self.user = user
 
-    logs = get_this_weeks_logs(user)
-    overtime: datetime.timedelta = datetime.timedelta(0)
+    def get_current_weeks_overtime(self) -> datetime.timedelta:
+        """returns overtime for current week
 
-    for log in logs:
-        overtime += _calculate_overtime_for_log(log)
+        :param user: Django request.user
+        :return: Overtime this week for supplied user.
+        """
 
-    return overtime
+        logs = self.get_this_weeks_logs()
+        overtime: datetime.timedelta = datetime.timedelta(0)
 
+        for log in logs:
+            overtime += _calculate_overtime_for_log(log)
 
-def get_this_weeks_logs(user):
-    """Get this weeks rota records for the supplied user.
+        return overtime
 
-    :param user: request user
-    :return: Weekly rota records
-    """
+    def get_this_weeks_logs(self):
+        """Get this weeks rota records for the supplied user.
 
-    today = timezone.now().date()
-    diff = 0
+        :param user: request user
+        :return: Weekly rota records
+        """
 
-    # 1 = Monday, 7 = Sunday
-    weekday = today.isoweekday()
+        today = timezone.now().date()
+        diff = 0
 
-    if weekday > 1:
-        diff = weekday - 1
+        # 1 = Monday, 7 = Sunday
+        weekday = today.isoweekday()
 
-    monday = today - datetime.timedelta(days=diff)
+        if weekday > 1:
+            diff = weekday - 1
 
-    return FlexiTimeLog.objects.filter(
-        user=user,
-        created_at__date__gte=monday,
-    )
+        monday = today - datetime.timedelta(days=diff)
+
+        return FlexiTimeLog.objects.filter(
+            user=self.user,
+            created_at__date__gte=monday,
+        )
 
 
 def _calculate_overtime_for_log(log: FlexiTimeLog) -> datetime.timedelta:
