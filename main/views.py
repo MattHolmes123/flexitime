@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.utils import timezone
-from django.utils.decorators import method_decorator
 from django.views.generic import DetailView
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView
@@ -57,7 +56,7 @@ class FlexiTimeLogActionMixin:
         return super(FlexiTimeLogActionMixin, self).form_valid(form)
 
 
-@method_decorator(login_required, name='dispatch')
+@login_required
 def edit_today(request):
     """Either loads the create or update view.
 
