@@ -1,0 +1,28 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<form method="post" action="">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    <div class="columns">
+        <div class="column is-one-quarter">Date (TODO - add created_date here)</div>
+        <div class="column is-one-quarter">Logged In</div>
+        <div class="column is-one-quarter">Break</div>
+        <div class="column is-one-quarter">Logged out</div>
+    </div>
+        {% for form in formset %}
+            <div class="columns">
+                <div class="column is-one-quarter">{{ form.id }}</div>
+                {% for field in form.visible_fields %}
+                    <div class="column is-one-quarter">
+                        <div class="field">
+                            <div class="control">{{ field }}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+    <input type="submit" class="button is-link" value="Submit">
+</form>
+{% endblock %}

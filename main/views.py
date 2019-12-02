@@ -1,7 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.forms import modelformset_factory
 from django.shortcuts import redirect
+from django.shortcuts import render
 from django.utils import timezone
 from django.views.generic import DetailView
 from django.views.generic.base import TemplateView
@@ -91,3 +93,31 @@ class FlexiTimeLogUpdateView(LoginRequiredMixin, FlexiTimeLogActionMixin, Update
 
 class FlexiTimeLogDetailView(LoginRequiredMixin, DetailView):
     model = FlexiTimeLog
+
+
+@login_required
+def edit_week(request):
+    """Edit the weeks rota records... Needs some work."""
+
+    # Add the extra rows when this has been fixed:
+    # https://docs.djangoproject.com/en/2.2/topics/forms/formsets/#passing-custom-parameters-to-formset-forms
+    # https://medium.com/all-about-django/adding-forms-dynamically-to-a-django-formset-375f1090c2b0
+    FlextTimeLogFormSet = modelformset_factory(FlexiTimeLog, EditFlexiTimeForm, extra=0)
+
+    if request.method == 'POST':
+        formset = FlextTimeLogFormSet(request.POST, request.FILES)
+
+        if formset.is_valid():
+            formset.save()
+
+        else:
+            messages.error(request, "Errors when saving form")
+            messages.error(request, formset.errors)
+
+        return redirect('edit_week')
+
+    else:
+        queryset = OvertimeService(request.user).get_this_weeks_logs()
+        formset = FlextTimeLogFormSet(queryset=queryset)
+
+    return render(request, 'main/flexitimelog_edit_week.html', context={'formset': formset})

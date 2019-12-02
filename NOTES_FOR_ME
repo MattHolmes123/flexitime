@@ -17,3 +17,6 @@ https://realpython.com/django-redirects/#the-redirectview-class-based-view
 
 # If you need password reset etc continue this:
 https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication
+
+# TODO: Only use django forms to check if the form is valid.
+# Do We want to go down the route of everything that saves to a model is in the model file?

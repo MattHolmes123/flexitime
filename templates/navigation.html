@@ -14,8 +14,9 @@
         {% block navigation %}
             {% if user.is_authenticated %}
                 <div class="navbar-start">
-                    <a class="navbar-item" href="{% url 'this_week' %}">This week</a>
-                    <a class="navbar-item" href="{% url 'edit_today' %}">Today</a>
+                    <a class="navbar-item" href="{% url 'this_week' %}">View week</a>
+                    <a class="navbar-item" href="{% url 'edit_today' %}">Edit today</a>
+                    <a class="navbar-item" href="{% url 'edit_week' %}">Edit week</a>
 
                     <!-- This is just an example of a dropdown navigation -->
                     <div class="navbar-item has-dropdown is-hoverable">
