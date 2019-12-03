@@ -20,3 +20,6 @@ https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication
 
 # TODO: Only use django forms to check if the form is valid.
 # Do We want to go down the route of everything that saves to a model is in the model file?
+
+# Here is a reference of how to loop over hidden fields in templates:
+https://docs.djangoproject.com/en/2.2/topics/forms/#looping-over-hidden-and-visible-fields
