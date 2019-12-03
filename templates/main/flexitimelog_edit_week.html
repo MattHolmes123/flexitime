@@ -6,15 +6,19 @@
     {{ formset.management_form }}
     <div class="columns">
         <div class="column is-one-quarter">Date (TODO - add created_date here)</div>
-        <div class="column is-one-quarter">Logged In</div>
-        <div class="column is-one-quarter">Break</div>
-        <div class="column is-one-quarter">Logged out</div>
+        <div class="column is-1">Logged In</div>
+        <div class="column is-1">Break</div>
+        <div class="column is-1">Logged out</div>
     </div>
+        {# https://docs.djangoproject.com/en/2.2/topics/forms/#looping-over-hidden-and-visible-fields #}
         {% for form in formset %}
             <div class="columns">
-                <div class="column is-one-quarter">{{ form.id }}</div>
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+                <div class="column is-one-quarter">Add date created</div>
                 {% for field in form.visible_fields %}
-                    <div class="column is-one-quarter">
+                    <div class="column is-1">
                         <div class="field">
                             <div class="control">{{ field }}</div>
                         </div>

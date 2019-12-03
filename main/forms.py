@@ -5,7 +5,7 @@ from .models import FlexiTimeLog
 
 def time_input_kwargs():
     return {
-        'attrs': {'type': 'time', 'class': 'input'},
+        'attrs': {'type': 'time', 'class': 'input is-small'},
         'format': '%H:%M'
     }
 

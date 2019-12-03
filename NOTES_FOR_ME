@@ -10,8 +10,6 @@ http://mypy-lang.org/
 https://mypy.readthedocs.io/en/stable/
 https://mypy.readthedocs.io/en/latest/cheat_sheet_py3.html
 
-# Convert lib/overtime into services/overtime
-
 # Read this about django redirects.
 https://realpython.com/django-redirects/#the-redirectview-class-based-view
 
@@ -20,6 +18,3 @@ https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication
 
 # TODO: Only use django forms to check if the form is valid.
 # Do We want to go down the route of everything that saves to a model is in the model file?
-
-# Here is a reference of how to loop over hidden fields in templates:
-https://docs.djangoproject.com/en/2.2/topics/forms/#looping-over-hidden-and-visible-fields

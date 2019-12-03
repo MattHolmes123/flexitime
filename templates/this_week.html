@@ -15,8 +15,8 @@
         <div class="columns">
             <div class="column">{{ entry.created_at }}</div>
             <div class="column">{{ entry.logged_in }}</div>
-            {# TODO: Change the format of this (don't display as a time) #}
-            <div class="column">{{ entry.break_duration }}</div>
+            {# https://docs.djangoproject.com/en/2.2/ref/templates/builtins/#date #}
+            <div class="column">{{ entry.break_duration|time:"g:i" }}</div>
             <div class="column">{{ entry.logged_out }}</div>
             <div class="column"><a href="{{ entry.get_absolute_url }}">Edit</a></div>
         </div>
