@@ -102,12 +102,25 @@ def edit_week(request):
     # Add the extra rows when this has been fixed:
     # https://docs.djangoproject.com/en/2.2/topics/forms/formsets/#passing-custom-parameters-to-formset-forms
     # https://medium.com/all-about-django/adding-forms-dynamically-to-a-django-formset-375f1090c2b0
-    FlextTimeLogFormSet = modelformset_factory(FlexiTimeLog, EditFlexiTimeForm, extra=0)
+
+    # TODO: refactor this as its done in two places.
+    # If we can load todays record do not add a bland row.
+    try:
+        FlexiTimeLog.objects.get(user=request.user, created_at__date=timezone.now().date())
+        extra = 0
+    except FlexiTimeLog.DoesNotExist:
+        extra = 1
+
+    FlextTimeLogFormSet = modelformset_factory(FlexiTimeLog, EditFlexiTimeForm, extra=extra)
 
     if request.method == 'POST':
         formset = FlextTimeLogFormSet(request.POST, request.FILES)
 
         if formset.is_valid():
+            for form in formset:
+                if form.instance.id is None:
+                    form.instance.user = request.user
+
             formset.save()
 
         else:
