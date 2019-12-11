@@ -56,7 +56,10 @@ class OvertimeService:
         return monday
 
     def get_this_week_as_as_date_list(self):
-        """Return this week as a list of dates."""
+        """Return this week as a list of dates.
+
+        :return: This week as a list of date objects.
+        """
 
         monday = self.get_this_mondays_date()
 
