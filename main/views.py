@@ -69,7 +69,7 @@ def edit_today(request):
     try:
         log = FlexiTimeLog.objects.get(
             user=request.user,
-            created_at__date=timezone.now().date()
+            log_date=timezone.now().date()
         )
 
         return redirect(log)
@@ -106,7 +106,7 @@ def edit_week(request):
     # TODO: refactor this as its done in two places.
     # If we can load todays record do not add a bland row.
     try:
-        FlexiTimeLog.objects.get(user=request.user, created_at__date=timezone.now().date())
+        FlexiTimeLog.objects.get(user=request.user, log_date=timezone.now().date())
         extra = 0
     except FlexiTimeLog.DoesNotExist:
         extra = 1

@@ -5,6 +5,7 @@
     {% csrf_token %}
     {{ formset.management_form }}
     <div class="columns">
+        <div class="column is-1">Log date</div>
         <div class="column is-1">Logged In</div>
         <div class="column is-1">Break</div>
         <div class="column is-1">Logged out</div>
@@ -17,6 +18,7 @@
                 {% for hidden in form.hidden_fields %}
                     {{ hidden }}
                 {% endfor %}
+                <div class="column is-1">{{ form.instance.log_date|date:"d/M/Y"  }}</div>
                 {% for field in form.visible_fields %}
                     <div class="column is-1">
                         <div class="field">

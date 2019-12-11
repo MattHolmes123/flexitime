@@ -11,6 +11,7 @@ class OvertimeService:
 
     def __init__(self, user: User):
         self.user = user
+        self.today = timezone.now().date()
 
     def get_current_weeks_overtime(self) -> datetime.timedelta:
         """returns overtime for current week
@@ -34,22 +35,39 @@ class OvertimeService:
         :return: Weekly rota records
         """
 
-        today = timezone.now().date()
-        diff = 0
+        monday = self.get_this_mondays_date()
 
+        return FlexiTimeLog.objects.filter(
+            user=self.user,
+            log_date__gte=monday,
+        )
+
+    def get_this_mondays_date(self):
+
+        diff = 0
         # 1 = Monday, 7 = Sunday
-        weekday = today.isoweekday()
+        weekday = self.today.isoweekday()
 
         if weekday > 1:
             diff = weekday - 1
 
-        monday = today - datetime.timedelta(days=diff)
+        monday = self.today - datetime.timedelta(days=diff)
 
-        return FlexiTimeLog.objects.filter(
-            user=self.user,
-            created_at__date__gte=monday,
-        )
+        return monday
 
+    def get_this_week_as_as_date_list(self):
+        """Return this week as a list of dates."""
+
+        monday = self.get_this_mondays_date()
+
+        week_list = [monday]
+
+        for day in range(1, 5, 1):
+            week_list.append(
+                monday + datetime.timedelta(days=day)
+            )
+
+        return week_list
 
 def _calculate_overtime_for_log(log: FlexiTimeLog) -> datetime.timedelta:
     """Calculates overtime for supplied log record

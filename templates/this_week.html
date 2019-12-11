@@ -5,20 +5,22 @@
     <p class="subtitle"><strong>Total Records:</strong> {{ total_records }}</p>
     <p>Flexitime logs</p>
     <div class="columns">
-        <div class="column">Created at</div>
-        <div class="column">Logged in </div>
+        <div class="column">Log date</div>
+        <div class="column">Logged in</div>
         <div class="column">Break duration</div>
         <div class="column">Logged out</div>
         <div class="column">Edit</div>
+        <div class="column">Created at</div>
     </div>
     {% for entry in flexitime_list %}
         <div class="columns">
-            <div class="column">{{ entry.created_at }}</div>
+            <div class="column">{{ entry.log_date }}</div>
             <div class="column">{{ entry.logged_in }}</div>
             {# https://docs.djangoproject.com/en/2.2/ref/templates/builtins/#date #}
             <div class="column">{{ entry.break_duration|time:"g:i" }}</div>
             <div class="column">{{ entry.logged_out }}</div>
             <div class="column"><a href="{{ entry.get_absolute_url }}">Edit</a></div>
+            <div class="column">{{ entry.created_at }}</div>
         </div>
     {% endfor %}
 {% endblock %}
