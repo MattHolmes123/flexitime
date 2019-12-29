@@ -5,10 +5,12 @@
     <form action="" method="post">
         {% csrf_token %}
         {% for field in form %}
-            <div class="field">
-                <label class="label" for="{{ field.name }}">{{ field.label }}</label>
-                <div class="control">
-                    {{ field }}
+            <div class="columns">
+                <div class="column is-2">
+                    <label class="label" for="{{ field.name }}">{{ field.label }}</label>
+                </div>
+                <div class="column is-4">
+                    <div class="control">{{ field }}</div>
                 </div>
             </div>
         {% endfor %}
