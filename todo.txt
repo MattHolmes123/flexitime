@@ -1,0 +1,16 @@
+
+Short term goals:
+    * Add type hints + mypy checking (https://realpython.com/python-type-checking/#static-type-checking)
+        Other options:
+            https://pyre-check.org/
+            https://google.github.io/pytype/
+            http://mypy-lang.org/
+
+    * Add an API app (CRUD + reporting e.g. this-week)
+
+Medium term goals:
+    * Deploy / host app (AWS probably)
+        (Maybe look into bitbucket pipelines / deployments)
+
+Long term goals:
+    * Create a standalone JS app that uses the API to reimplement the flexitime django webapp.
