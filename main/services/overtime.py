@@ -40,7 +40,7 @@ class OvertimeService:
         return FlexiTimeLog.objects.filter(
             user=self.user,
             log_date__gte=monday,
-        )
+        ).order_by('log_date')
 
     def get_this_mondays_date(self):
 
