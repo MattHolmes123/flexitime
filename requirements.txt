@@ -1,1 +1,4 @@
+black==19.10b0
 Django==2.2.7
+flake8==3.7.9
+mypy==0.761

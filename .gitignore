@@ -3,3 +3,4 @@
 /db.sqlite3
 /list-of-commands.sh
 /.idea
+.mypy_cache/

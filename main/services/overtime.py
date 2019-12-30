@@ -8,7 +8,6 @@ from ..models import FlexiTimeLog
 
 
 class OvertimeService:
-
     def __init__(self, user: User):
         self.user = user
         self.today = timezone.now().date()
@@ -38,9 +37,8 @@ class OvertimeService:
         monday = self.get_this_mondays_date()
 
         return FlexiTimeLog.objects.filter(
-            user=self.user,
-            log_date__gte=monday,
-        ).order_by('log_date')
+            user=self.user, log_date__gte=monday,
+        ).order_by("log_date")
 
     def get_this_mondays_date(self):
 
@@ -66,11 +64,10 @@ class OvertimeService:
         week_list = [monday]
 
         for day in range(1, 5, 1):
-            week_list.append(
-                monday + datetime.timedelta(days=day)
-            )
+            week_list.append(monday + datetime.timedelta(days=day))
 
         return week_list
+
 
 def _calculate_overtime_for_log(log: FlexiTimeLog) -> datetime.timedelta:
     """Calculates overtime for supplied log record

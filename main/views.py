@@ -16,33 +16,33 @@ from .services.overtime import OvertimeService
 
 
 class Index(LoginRequiredMixin, TemplateView):
-    template_name = 'index.html'
+    template_name = "index.html"
 
     def get_context_data(self, **kwargs):
         ot_service = OvertimeService(self.request.user)
         context = super().get_context_data(**kwargs)
-        context['weekly_overtime'] = ot_service.get_current_weeks_overtime()
+        context["weekly_overtime"] = ot_service.get_current_weeks_overtime()
 
         return context
 
 
 class ThisWeek(LoginRequiredMixin, ListView):
-    template_name = 'this_week.html'
-    context_object_name = 'flexitime_list'
+    template_name = "this_week.html"
+    context_object_name = "flexitime_list"
 
     def get_queryset(self):
         return OvertimeService(self.request.user).get_this_weeks_logs()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['total_records'] = self.object_list.count()
+        context["total_records"] = self.object_list.count()
 
         return context
 
 
 class FlexiTimeLogActionMixin:
     form_class = EditFlexiTimeForm
-    context_object_name = 'flexitimelog'
+    context_object_name = "flexitimelog"
 
     @property
     def success_msg(self):
@@ -68,19 +68,18 @@ def edit_today(request):
 
     try:
         log = FlexiTimeLog.objects.get(
-            user=request.user,
-            log_date=timezone.now().date()
+            user=request.user, log_date=timezone.now().date()
         )
 
         return redirect(log)
 
     except FlexiTimeLog.DoesNotExist:
-        return redirect('create')
+        return redirect("create")
 
 
 class FlexiTimeLogCreateView(LoginRequiredMixin, FlexiTimeLogActionMixin, CreateView):
     model = FlexiTimeLog
-    success_msg = 'FlexiTimeLog created'
+    success_msg = "FlexiTimeLog created"
 
     def set_form_user(self, form):
         form.instance.user = self.request.user
@@ -88,7 +87,7 @@ class FlexiTimeLogCreateView(LoginRequiredMixin, FlexiTimeLogActionMixin, Create
 
 class FlexiTimeLogUpdateView(LoginRequiredMixin, FlexiTimeLogActionMixin, UpdateView):
     model = FlexiTimeLog
-    success_msg = 'FlexiTimeLog Updated'
+    success_msg = "FlexiTimeLog Updated"
 
 
 class FlexiTimeLogDetailView(LoginRequiredMixin, DetailView):
@@ -111,9 +110,11 @@ def edit_week(request):
     except FlexiTimeLog.DoesNotExist:
         extra = 1
 
-    FlextTimeLogFormSet = modelformset_factory(FlexiTimeLog, EditFlexiTimeForm, extra=extra)
+    FlextTimeLogFormSet = modelformset_factory(
+        FlexiTimeLog, EditFlexiTimeForm, extra=extra
+    )
 
-    if request.method == 'POST':
+    if request.method == "POST":
         formset = FlextTimeLogFormSet(request.POST, request.FILES)
 
         if formset.is_valid():
@@ -127,10 +128,12 @@ def edit_week(request):
             messages.error(request, "Errors when saving form")
             messages.error(request, formset.errors)
 
-        return redirect('edit_week')
+        return redirect("edit_week")
 
     else:
         queryset = OvertimeService(request.user).get_this_weeks_logs()
         formset = FlextTimeLogFormSet(queryset=queryset)
 
-    return render(request, 'main/flexitimelog_edit_week.html', context={'formset': formset})
+    return render(
+        request, "main/flexitimelog_edit_week.html", context={"formset": formset}
+    )

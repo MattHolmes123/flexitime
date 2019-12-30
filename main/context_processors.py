@@ -1,4 +1,2 @@
-
-
 def test_processor(request):
-    return {'test': 'foobar'}
+    return {"test": "foobar"}
