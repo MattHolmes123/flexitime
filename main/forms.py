@@ -1,9 +1,16 @@
 from django import forms
 
 from .models import FlexiTimeLog
+from typing_extensions import TypedDict
 
 
-def time_input_kwargs() -> dict:
+# Example of using a TypedDict class.
+class TimeInputData(TypedDict):
+    attrs: dict
+    format: str
+
+
+def time_input_kwargs() -> TimeInputData:
     return {"attrs": {"type": "time", "class": "input is-small"}, "format": "%H:%M"}
 
 

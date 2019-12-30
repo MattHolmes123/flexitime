@@ -5,6 +5,7 @@ Short term goals:
             https://pyre-check.org/
             https://google.github.io/pytype/
             http://mypy-lang.org/
+    * Read this: https://mypy.readthedocs.io/en/latest/cheat_sheet_py3.html
     * Add tests where needed (e.g. services/overtime)
     * Add an API app (CRUD + reporting e.g. this-week)
 
