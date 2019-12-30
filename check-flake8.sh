@@ -4,7 +4,7 @@ set -e
 
 source venv/bin/activate
 
-flake8 --select=F --ignore=F401,F403,F405,W503 flexitime main
+flake8 --select=F --ignore=W503 flexitime main
 
 
 # Old ignore.

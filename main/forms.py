@@ -3,7 +3,7 @@ from django import forms
 from .models import FlexiTimeLog
 
 
-def time_input_kwargs():
+def time_input_kwargs() -> dict:
     return {"attrs": {"type": "time", "class": "input is-small"}, "format": "%H:%M"}
 
 

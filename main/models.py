@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 
-def time_now():
+def time_now() -> datetime.time:
     """Function that returns a rounded login time.
     Rounds in 5 minute increments.
 

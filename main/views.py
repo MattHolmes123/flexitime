@@ -103,7 +103,7 @@ def edit_week(request):
     # https://medium.com/all-about-django/adding-forms-dynamically-to-a-django-formset-375f1090c2b0
 
     # TODO: refactor this as its done in two places.
-    # If we can load todays record do not add a bland row.
+    # If we can load today's record do not add a bland row.
     try:
         FlexiTimeLog.objects.get(user=request.user, log_date=timezone.now().date())
         extra = 0

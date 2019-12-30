@@ -1,21 +1,24 @@
 import datetime
+from typing import List
 
-from django.contrib.auth.models import User
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.utils import timezone
 
 from ..models import FlexiTimeLog
 
 
 class OvertimeService:
-    def __init__(self, user: User):
+    today: datetime.date
+    user: User
+
+    def __init__(self, user: User) -> None:
         self.user = user
         self.today = timezone.now().date()
 
     def get_current_weeks_overtime(self) -> datetime.timedelta:
         """returns overtime for current week
 
-        :param user: Django request.user
         :return: Overtime this week for supplied user.
         """
 
@@ -27,10 +30,10 @@ class OvertimeService:
 
         return overtime
 
+    # TODO: Add type hint's for django stuff.
     def get_this_weeks_logs(self):
         """Get this weeks rota records for the supplied user.
 
-        :param user: request user
         :return: Weekly rota records
         """
 
@@ -40,7 +43,11 @@ class OvertimeService:
             user=self.user, log_date__gte=monday,
         ).order_by("log_date")
 
-    def get_this_mondays_date(self):
+    def get_this_mondays_date(self) -> datetime.date:
+        """Return mondays date for this week.
+
+        :return: Monday's date
+        """
 
         diff = 0
         # 1 = Monday, 7 = Sunday
@@ -53,7 +60,7 @@ class OvertimeService:
 
         return monday
 
-    def get_this_week_as_as_date_list(self):
+    def get_this_week_as_as_date_list(self) -> List[datetime.date]:
         """Return this week as a list of dates.
 
         :return: This week as a list of date objects.
@@ -88,7 +95,7 @@ def _calculate_overtime_for_log(log: FlexiTimeLog) -> datetime.timedelta:
 
 
 def time_as_td(dt: datetime.time) -> datetime.timedelta:
-    """Converts a datetime.time to a datetime.timedelda object.
+    """Converts a datetime.time to a datetime.timedelta object.
 
     :param dt: datetime.time instance.
     :return: datetime.timedelta instance
