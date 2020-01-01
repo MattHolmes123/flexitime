@@ -18,3 +18,9 @@ https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication
 
 # TODO: Only use django forms to check if the form is valid.
 # Do We want to go down the route of everything that saves to a model is in the model file?
+
+# Good example of pytest create user fixture / good stuff on pytest in django all round:
+# https://djangostars.com/blog/django-pytest-testing/
+
+# Test data
+# https://factoryboy.readthedocs.io/en/latest/

@@ -4,3 +4,5 @@
 /list-of-commands.sh
 /.idea
 .mypy_cache/
+.coverage
+htmlcov/
