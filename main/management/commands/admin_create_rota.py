@@ -22,7 +22,7 @@ class Command(BaseCommand):
 
         overtime = OvertimeService(user)
 
-        for day in overtime.get_this_week_as_as_date_list():
+        for day in overtime.get_this_week_as_date_list():
             log, created = FlexiTimeLog.objects.get_or_create(
                 user=user,
                 log_date=day,

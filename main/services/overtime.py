@@ -1,5 +1,5 @@
 import datetime
-from typing import List
+from typing import List, Optional
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -26,7 +26,7 @@ class OvertimeService:
         overtime: datetime.timedelta = datetime.timedelta(0)
 
         for log in logs:
-            overtime += _calculate_overtime_for_log(log)
+            overtime += calculate_overtime_for_log(log)
 
         return overtime
 
@@ -60,7 +60,7 @@ class OvertimeService:
 
         return monday
 
-    def get_this_week_as_as_date_list(self) -> List[datetime.date]:
+    def get_this_week_as_date_list(self) -> List[datetime.date]:
         """Return this week as a list of dates.
 
         :return: This week as a list of date objects.
@@ -76,7 +76,7 @@ class OvertimeService:
         return week_list
 
 
-def _calculate_overtime_for_log(log: FlexiTimeLog) -> datetime.timedelta:
+def calculate_overtime_for_log(log: FlexiTimeLog) -> datetime.timedelta:
     """Calculates overtime for supplied log record
 
     :param log: FlexiTimeLog record
@@ -94,11 +94,14 @@ def _calculate_overtime_for_log(log: FlexiTimeLog) -> datetime.timedelta:
         return ((time_out - time_in) - lunch_break) - settings.WORKING_DAY
 
 
-def time_as_td(dt: datetime.time) -> datetime.timedelta:
+def time_as_td(dt: Optional[datetime.time]) -> datetime.timedelta:
     """Converts a datetime.time to a datetime.timedelta object.
 
     :param dt: datetime.time instance.
     :return: datetime.timedelta instance
     """
+
+    if dt is None:
+        return datetime.timedelta(0)
 
     return datetime.timedelta(hours=dt.hour, minutes=dt.minute, seconds=dt.second)
