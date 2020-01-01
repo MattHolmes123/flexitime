@@ -24,3 +24,12 @@ https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication
 
 # Test data
 # https://factoryboy.readthedocs.io/en/latest/
+
+*** Django topics ***
+https://docs.djangoproject.com/en/3.0/topics/
+
+*** Django Testing ***
+# Testing overview: https://docs.djangoproject.com/en/3.0/topics/testing/
+# How to write tests: https://docs.djangoproject.com/en/3.0/topics/testing/overview/
+# Testing tools: https://docs.djangoproject.com/en/3.0/topics/testing/tools/
+# Advanced testing topics: https://docs.djangoproject.com/en/3.0/topics/testing/advanced/

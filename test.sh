@@ -2,4 +2,4 @@
 
 source venv/bin/activate
 
-python manage.py test main
+python -Wa manage.py test main --parallel
