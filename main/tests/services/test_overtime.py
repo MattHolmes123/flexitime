@@ -44,12 +44,12 @@ class OvertimeServiceTestCase(TestCase):
         cls.today = os.today
 
         test_data = [
-            # time_in,       break,          time_out
-            (as_time(8, 00), as_time(0, 30), as_time(16, 00)),
-            (as_time(8, 00), as_time(0, 30), as_time(16, 30)),
-            (as_time(8, 00), as_time(0, 30), as_time(16, 00)),
-            (as_time(8, 00), as_time(0, 30), as_time(16, 30)),
-            (as_time(8, 00), as_time(0, 30), as_time(16, 00)),
+            # time_in, break,  time_out
+            ((8, 00), (0, 30), (16, 00)),
+            ((8, 00), (0, 30), (16, 30)),
+            ((8, 00), (0, 30), (16, 00)),
+            ((8, 00), (0, 30), (16, 30)),
+            ((8, 00), (0, 30), (16, 00)),
         ]
 
         for i, day in enumerate(os.get_this_week_as_date_list()):
@@ -58,9 +58,9 @@ class OvertimeServiceTestCase(TestCase):
             FlexiTimeLog.objects.create(
                 user=cls.user_one,
                 log_date=day,
-                logged_in=time_in,
-                break_duration=lunch,
-                logged_out=time_out,
+                logged_in=as_time(*time_in),
+                break_duration=as_time(*lunch),
+                logged_out=as_time(*time_out),
             )
 
     def test_overtime_this_week(self) -> None:
