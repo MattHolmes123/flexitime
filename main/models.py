@@ -27,7 +27,19 @@ def time_now() -> datetime.time:
     return (now + add_on).time()
 
 
+# TODO: Decide best way to do this.
+_perm_view_all_user_logs = 'view_all_user_logs'
+
 class FlexiTimeLog(models.Model):
+    # TODO: Decide best way to do this.
+    VIEW_ALL_USER_LOGS = f'main.{_perm_view_all_user_logs}'
+
+    class Meta:
+        permissions = [
+            # TODO: Decide best way to do this.
+            (_perm_view_all_user_logs, 'Can view logs of all active users.')
+        ]
+
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     log_date = models.DateField(default=datetime.date.today)

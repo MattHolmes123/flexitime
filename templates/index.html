@@ -5,4 +5,13 @@
   <p class="subtitle">Welcome to Flexitime Tracker!</p>
   <p>Stats:</p>
   <p><strong>Overtime this week:</strong> {{ weekly_overtime }}</p>
+  <p><strong>Total Overtime for users:</strong></p>
+
+{# TODO: Improve the display of this #}
+{% if perms.main.view_all_user_logs %}
+    {% for user, overtime in user_overtime.items %}
+        <p>{{ user }}: {{ overtime.overtime }}</p>
+    {% endfor %}
+{% endif %}
+
 {% endblock %}

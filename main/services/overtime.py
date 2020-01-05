@@ -2,6 +2,7 @@ import datetime
 from typing import List, Optional
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.utils import timezone
 
@@ -13,6 +14,7 @@ class OvertimeService:
     user: User
 
     def __init__(self, user: User) -> None:
+        self.user_model = get_user_model()
         self.user = user
         self.today = timezone.now().date()
 
@@ -74,6 +76,33 @@ class OvertimeService:
             week_list.append(monday + datetime.timedelta(days=day))
 
         return week_list
+
+    # TODO: Rename as needed
+    def can_view_all_logs(self):
+        return self.user.has_perm(FlexiTimeLog.VIEW_ALL_USER_LOGS)
+
+    # TODO Add type hints.
+    def get_overtime_for_all_users(self):
+
+        users = self.user_model.objects.filter(is_active=True)
+
+        user_overtime = {}
+        for user in users:
+            user_overtime[user.username] = {
+                'overtime': self.get_total_overtime_for_user(user)
+            }
+
+        return user_overtime
+
+    def get_total_overtime_for_user(self, user: User) -> datetime.timedelta:
+
+        logs = FlexiTimeLog.objects.filter(user=user)
+        overtime: datetime.timedelta = datetime.timedelta(0)
+
+        for log in logs:
+            overtime += calculate_overtime_for_log(log)
+
+        return overtime
 
 
 def calculate_overtime_for_log(log: FlexiTimeLog) -> datetime.timedelta:

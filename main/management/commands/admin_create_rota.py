@@ -1,6 +1,6 @@
 import datetime
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 
 from main.models import FlexiTimeLog
@@ -18,7 +18,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        user = User.objects.get(username='admin')
+        user_model = get_user_model()
+        user = user_model.objects.get(username='admin')
 
         overtime = OvertimeService(user)
 

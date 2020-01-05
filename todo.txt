@@ -1,13 +1,9 @@
 
 Short term goals:
-    * Add type hints + mypy checking (https://realpython.com/python-type-checking/#static-type-checking)
-        Other options:
-            https://pyre-check.org/
-            https://google.github.io/pytype/
-            http://mypy-lang.org/
+    * Do this: https://docs.djangoproject.com/en/3.0/topics/auth/customizing/#using-a-custom-user-model-when-starting-a-project
     * Read this: https://mypy.readthedocs.io/en/latest/cheat_sheet_py3.html
-    * Add tests where needed (e.g. services/overtime)
     * Add an API app (CRUD + reporting e.g. this-week)
+    * Read this: https://docs.djangoproject.com/en/3.0/ref/contrib/contenttypes/
 
 Medium term goals:
     * Deploy / host app (AWS probably)

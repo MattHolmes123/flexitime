@@ -38,8 +38,12 @@ class OvertimeServiceTestCase(TestCase):
 
         cls.user_model = get_user_model()
         cls.user_one = cls.user_model.objects.create_user(
-            "User 1", "user@email1.com", "password1"
+            "User 1", "user@email1.com", "password1", is_active=True
         )
+        cls.super_user = cls.user_model.objects.create_superuser(
+            "Super User", "superuser@email.com", "SuperUserPassword"
+        )
+
         os = OvertimeService(cls.user_one)
         cls.today = os.today
 
@@ -148,3 +152,29 @@ class OvertimeServiceTestCase(TestCase):
         return FlexiTimeLog.objects.create(
             user=self.user_one, log_date=self.today, **extra
         )
+
+    def test_super_user_can_see_all_user_overtime(self):
+
+        overtime_service = OvertimeService(self.super_user)
+
+        expected = True
+        actual = overtime_service.can_view_all_logs()
+
+        self.assertEqual(expected, actual)
+
+    def test_user_one_cannot_see_all_user_overtime(self):
+        overtime_service = OvertimeService(self.user_one)
+
+        expected = False
+        actual = overtime_service.can_view_all_logs()
+
+        self.assertEqual(expected, actual)
+
+    # TODO rename
+    def test_all_logs(self):
+        overtime_service = OvertimeService(self.super_user)
+
+        expected = {'User 1': {'overtime': as_timedelta(1, 0)}, 'Super User': {'overtime': datetime.timedelta(0)}}
+        actual = overtime_service.get_overtime_for_all_users()
+
+        self.assertEqual(expected, actual)

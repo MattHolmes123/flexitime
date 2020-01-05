@@ -23,6 +23,9 @@ class Index(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context["weekly_overtime"] = ot_service.get_current_weeks_overtime()
 
+        if ot_service.can_view_all_logs():
+            context["user_overtime"] = ot_service.get_overtime_for_all_users()
+
         return context
 
 
