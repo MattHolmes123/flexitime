@@ -89,7 +89,7 @@ class OvertimeService:
         user_overtime = {}
         for user in users:
             user_overtime[user.username] = {
-                'overtime': self.get_total_overtime_for_user(user)
+                "overtime": self.get_total_overtime_for_user(user)
             }
 
         return user_overtime

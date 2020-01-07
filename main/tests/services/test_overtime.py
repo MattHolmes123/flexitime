@@ -174,7 +174,10 @@ class OvertimeServiceTestCase(TestCase):
     def test_all_logs(self):
         overtime_service = OvertimeService(self.super_user)
 
-        expected = {'User 1': {'overtime': as_timedelta(1, 0)}, 'Super User': {'overtime': datetime.timedelta(0)}}
+        expected = {
+            "User 1": {"overtime": as_timedelta(1, 0)},
+            "Super User": {"overtime": datetime.timedelta(0)},
+        }
         actual = overtime_service.get_overtime_for_all_users()
 
         self.assertEqual(expected, actual)
