@@ -125,3 +125,7 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # How long a working day is.
 WORKING_DAY = datetime.timedelta(hours=7.5)
+
+# The User model for this project
+# https://docs.djangoproject.com/en/3.0/topics/auth/customizing/#substituting-a-custom-user-model
+AUTH_USER_MODEL = 'main.User'

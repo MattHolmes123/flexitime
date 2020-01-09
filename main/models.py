@@ -1,5 +1,6 @@
 import datetime
 
+from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
@@ -57,3 +58,9 @@ class FlexiTimeLog(models.Model):
 
     def __str__(self):
         return f"{self.user}, {self.log_date}, {self.logged_in}, {self.break_duration}, {self.logged_out}"
+
+
+# See here for reason:
+# https://docs.djangoproject.com/en/3.0/topics/auth/customizing/#substituting-a-custom-user-model
+class User(AbstractUser):
+    pass

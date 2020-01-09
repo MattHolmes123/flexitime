@@ -22,11 +22,11 @@ class Command(BaseCommand):
         user_model = get_user_model()
 
         try:
-            self.stdout.write('Loaded test admin user.')
             user = user_model.objects.get(username='admin')
+            self.stdout.write('Loaded test admin user.')
         except ObjectDoesNotExist:
-            self.stdout.write('Created test admin user.')
             user = user_model.objects.create_superuser('admin', 'admin@email.com', 'admin')
+            self.stdout.write('Created test admin user.')
 
         overtime = OvertimeService(user)
 

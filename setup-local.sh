@@ -9,6 +9,6 @@ virtualenv -p python3.6 venv
   
 pip install -r requirements.txt
 
-python manage.py migrate 
+python manage.py migrate
 
 python manage.py create_test_admin_user
