@@ -15,19 +15,8 @@
             {% if user.is_authenticated %}
                 <div class="navbar-start">
                     <a class="navbar-item" href="{% url 'this_week' %}">View week</a>
-                    <a class="navbar-item" href="{% url 'edit_today' %}">Edit today</a>
                     <a class="navbar-item" href="{% url 'edit_week' %}">Edit week</a>
-
-                    <!-- This is just an example of a dropdown navigation -->
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link">More</a>
-                        <div class="navbar-dropdown">
-                            <a class="navbar-item">About</a>
-                            <hr class="navbar-divider">
-                            <!-- Example usage of a context processor -->
-                            <a class="navbar-item">{{ test }}</a>
-                        </div>
-                    </div>
+                    <a class="navbar-item" href="{% url 'edit_today' %}">Edit today</a>
                 </div>
             {% endif %}
             <div class="navbar-end">
