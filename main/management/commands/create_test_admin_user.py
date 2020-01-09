@@ -1,6 +1,7 @@
 import datetime
 
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import BaseCommand
 
 from main.models import FlexiTimeLog
@@ -17,9 +18,15 @@ class Command(BaseCommand):
     #     parser.add_argument('poll_ids', nargs='+', type=int)
 
     def handle(self, *args, **options):
-
+        # Note: This command is never for production (only local).
         user_model = get_user_model()
-        user = user_model.objects.get(username='admin')
+
+        try:
+            self.stdout.write('Loaded test admin user.')
+            user = user_model.objects.get(username='admin')
+        except ObjectDoesNotExist:
+            self.stdout.write('Created test admin user.')
+            user = user_model.objects.create_superuser('admin', 'admin@email.com', 'admin')
 
         overtime = OvertimeService(user)
 
