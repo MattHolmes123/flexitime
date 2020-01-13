@@ -1,12 +1,23 @@
 
 Short term goals:
+    * Create a admin manager page that can see rota records for users
     * Read this: https://mypy.readthedocs.io/en/latest/cheat_sheet_py3.html
     * Add an API app (CRUD + reporting e.g. this-week)
     * Read this: https://docs.djangoproject.com/en/3.0/ref/contrib/contenttypes/
+    * https://tox.readthedocs.io/en/latest/
 
 Medium term goals:
     * Deploy / host app (AWS probably)
         (Maybe look into bitbucket pipelines / deployments)
+        https://uwsgi.readthedocs.io/en/latest/tutorials/Django_and_nginx.html
 
 Long term goals:
     * Create a standalone JS app that uses the API to reimplement the flexitime django webapp.
+
+Deployment / automation links:
+    * https://docs.ansible.com/ansible/latest/index.html
+    * https://www.saltstack.com/
+    * https://www.docker.com/
+    * https://kubernetes.io/
+    * https://www.fullstackpython.com/deployment.html
+    * https://www.kevinlondon.com/2016/09/19/devops-from-scratch-pt-1.html (Find a newer version)
