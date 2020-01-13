@@ -8,18 +8,13 @@ from django.utils import timezone
 
 from ..models import FlexiTimeLog
 
-UserOvertime = Dict[
-    str, Dict[
-        str, datetime.timedelta
-    ]
-]
+UserOvertime = Dict[str, Dict[str, datetime.timedelta]]
 
 
 user_model: User = get_user_model()
 
 
 class OvertimeService:
-
     def __init__(self, user: User) -> None:
         self.user: User = user
         self.today: datetime.date = timezone.now().date()
