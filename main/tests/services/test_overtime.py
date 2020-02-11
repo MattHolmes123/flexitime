@@ -13,14 +13,11 @@ from main.services.overtime import (
 )
 
 
-# TODO: Consider moving as_time and as_timedelta to overtime service / utils
 def as_time(hour: int, minute: int) -> datetime.time:
-
     return datetime.time(hour=hour, minute=minute, second=0)
 
 
 def as_timedelta(hour: int, minute: int) -> datetime.timedelta:
-
     return datetime.timedelta(hours=hour, minutes=minute, seconds=0)
 
 
@@ -170,8 +167,7 @@ class OvertimeServiceTestCase(TestCase):
 
         self.assertEqual(expected, actual)
 
-    # TODO rename
-    def test_all_logs(self):
+    def test_can_calculate_overtime_for_all_users(self):
         overtime_service = OvertimeService(self.super_user)
 
         expected = {
