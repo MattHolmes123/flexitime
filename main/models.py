@@ -12,7 +12,6 @@ def time_now() -> datetime.time:
     Rounds in 5 minute increments.
 
     :return: time now
-    :rtype: datetime.time
     """
 
     now = timezone.now()
@@ -28,17 +27,15 @@ def time_now() -> datetime.time:
     return (now + add_on).time()
 
 
-# TODO: Decide best way to do this.
+# TODO: Decide best way to do this (Do we need a constants.py file or anything).
 _perm_view_all_user_logs = "view_all_user_logs"
 
 
 class FlexiTimeLog(models.Model):
-    # TODO: Decide best way to do this.
     VIEW_ALL_USER_LOGS = f"main.{_perm_view_all_user_logs}"
 
     class Meta:
         permissions = [
-            # TODO: Decide best way to do this.
             (_perm_view_all_user_logs, "Can view logs of all active users.")
         ]
 

@@ -2,6 +2,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import modelformset_factory
+from django.http.request import HttpRequest
+from django.http.response import HttpResponse
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.utils import timezone
@@ -43,6 +45,19 @@ class ThisWeek(LoginRequiredMixin, ListView):
         return context
 
 
+@login_required
+def edit_today(request: HttpRequest) -> HttpResponse:
+    """Either loads the create or update view."""
+
+    try:
+        log = _get_todays_log(request)
+
+        # This redirects using FlexiTimeLog.get_absolute_url()
+        return redirect(log)
+    except FlexiTimeLog.DoesNotExist:
+        return redirect("create")
+
+
 class FlexiTimeLogActionMixin:
     form_class = EditFlexiTimeForm
     context_object_name = "flexitimelog"
@@ -59,25 +74,6 @@ class FlexiTimeLogActionMixin:
         messages.info(self.request, self.success_msg)
 
         return super(FlexiTimeLogActionMixin, self).form_valid(form)
-
-
-@login_required
-def edit_today(request):
-    """Either loads the create or update view.
-
-    :param request: Http request
-    :return: HttpResponse
-    """
-
-    try:
-        log = FlexiTimeLog.objects.get(
-            user=request.user, log_date=timezone.now().date()
-        )
-
-        return redirect(log)
-
-    except FlexiTimeLog.DoesNotExist:
-        return redirect("create")
 
 
 class FlexiTimeLogCreateView(LoginRequiredMixin, FlexiTimeLogActionMixin, CreateView):
@@ -98,17 +94,12 @@ class FlexiTimeLogDetailView(LoginRequiredMixin, DetailView):
 
 
 @login_required
-def edit_week(request):
+def edit_week(request: HttpRequest) -> HttpResponse:
     """Edit the weeks rota records... Needs some work."""
 
-    # Add the extra rows when this has been fixed:
-    # https://docs.djangoproject.com/en/2.2/topics/forms/formsets/#passing-custom-parameters-to-formset-forms
-    # https://medium.com/all-about-django/adding-forms-dynamically-to-a-django-formset-375f1090c2b0
-
-    # TODO: refactor this as its done in two places.
     # If we can load today's record do not add a bland row.
     try:
-        FlexiTimeLog.objects.get(user=request.user, log_date=timezone.now().date())
+        _get_todays_log(request)
         extra = 0
     except FlexiTimeLog.DoesNotExist:
         extra = 1
@@ -140,3 +131,9 @@ def edit_week(request):
     return render(
         request, "main/flexitimelog_edit_week.html", context={"formset": formset}
     )
+
+
+def _get_todays_log(request: HttpRequest) -> FlexiTimeLog:
+    """Get today's log record for the logged in user."""
+
+    return FlexiTimeLog.objects.get(user=request.user, log_date=timezone.now().date())
