@@ -158,7 +158,7 @@ class OvertimeServiceTestCase(TestCase):
         overtime_service = OvertimeService(self.super_user)
 
         expected = True
-        actual = overtime_service.can_view_all_logs()
+        actual = overtime_service.can_view_all_user_logs()
 
         self.assertEqual(expected, actual)
 
@@ -166,7 +166,7 @@ class OvertimeServiceTestCase(TestCase):
         overtime_service = OvertimeService(self.user_one)
 
         expected = False
-        actual = overtime_service.can_view_all_logs()
+        actual = overtime_service.can_view_all_user_logs()
 
         self.assertEqual(expected, actual)
 

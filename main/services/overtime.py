@@ -1,5 +1,5 @@
 import datetime
-from typing import List, Optional
+from typing import List, Optional, Dict, Iterable
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -8,15 +8,21 @@ from django.utils import timezone
 
 from ..models import FlexiTimeLog
 
+UserOvertime = Dict[
+    str, Dict[
+        str, datetime.timedelta
+    ]
+]
+
+
+user_model: User = get_user_model()
+
 
 class OvertimeService:
-    today: datetime.date
-    user: User
 
     def __init__(self, user: User) -> None:
-        self.user_model = get_user_model()
-        self.user = user
-        self.today = timezone.now().date()
+        self.user: User = user
+        self.today: datetime.date = timezone.now().date()
 
     def get_current_weeks_overtime(self) -> datetime.timedelta:
         """returns overtime for current week
@@ -32,8 +38,7 @@ class OvertimeService:
 
         return overtime
 
-    # TODO: Add type hint's for django stuff.
-    def get_this_weeks_logs(self):
+    def get_this_weeks_logs(self) -> Iterable[FlexiTimeLog]:
         """Get this weeks rota records for the supplied user.
 
         :return: Weekly rota records
@@ -77,24 +82,34 @@ class OvertimeService:
 
         return week_list
 
-    # TODO: Rename as needed
-    def can_view_all_logs(self):
+    def can_view_all_user_logs(self) -> bool:
+        """Return true if self.user has VIEW_ALL_USER_LOGS permission.
+
+        :return: True if user has specified permission.
+        """
+
         return self.user.has_perm(FlexiTimeLog.VIEW_ALL_USER_LOGS)
 
-    # TODO Add type hints.
-    def get_overtime_for_all_users(self):
+    def get_overtime_for_all_users(self) -> UserOvertime:
+        """Returns calculated total overtime for each active user."""
 
-        users = self.user_model.objects.filter(is_active=True)
-
+        users = user_model.objects.filter(is_active=True)
         user_overtime = {}
+
         for user in users:
-            user_overtime[user.username] = {
+            username: str = user.username
+            user_overtime[username] = {
                 "overtime": self.get_total_overtime_for_user(user)
             }
 
         return user_overtime
 
     def get_total_overtime_for_user(self, user: User) -> datetime.timedelta:
+        """Calculated total overtime for the supplied user.
+
+        :param user: User record
+        :return: Total overtime for user.
+        """
 
         logs = FlexiTimeLog.objects.filter(user=user)
         overtime: datetime.timedelta = datetime.timedelta(0)
