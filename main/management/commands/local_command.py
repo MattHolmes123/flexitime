@@ -7,6 +7,7 @@ from django.core.management.base import BaseCommand
 
 from main.models import FlexiTimeLog
 
+# args are username, email, password
 CreateUser = Callable[[str, str, str], User]
 
 
@@ -38,7 +39,10 @@ class LocalCommandBase(BaseCommand):
             self.stdout.write(f'Loaded test user {username}.')
 
         except self.user_model.DoesNotExist:
-            user = create_user_func(username, f'{username}@email.com', username)
+            username = username
+            email = f'{username}@email.com'
+            password = username
+            user = create_user_func(username, email, password)
             self.stdout.write(f'Created test user {username}.')
 
         return user

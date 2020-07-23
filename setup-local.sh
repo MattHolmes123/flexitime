@@ -3,7 +3,7 @@
 # Exit immediately if a command exits with a non-zero status.
 set -e
 
-virtualenv -p python3.6 venv
+virtualenv -p python venv
   
 . venv/bin/activate
   
