@@ -1,0 +1,62 @@
+All the Below was done following
+https://uwsgi.readthedocs.io/en/latest/tutorials/Django_and_nginx.html#install-uwsgi-system-wide
+
+# Created a virtualenv
+
+# installed uwsgi
+pip install uwsgi
+
+
+# created a test file and ran it like so:
+# This tested the following stack: the web client <-> uWSGI <-> Python
+uwsgi --http :8000 --wsgi-file test.py
+
+
+# Tested running flextime using uwsgi
+# This tested the following stack: the web client <-> uWSGI <-> Django
+uwsgi --http :8000 --module flexitime.wsgi
+
+# Installed nginx, started it, and then went to 127.0.0.1:80 to test it was serving
+# This tested the following stack is working: the web client <-> the web server
+pacman -S nginx
+sudo systemctl start nginx
+
+# Copied down uwsgi_params to the project directory (it can also be found here: /etc/nginx/uwsgi_params)
+https://github.com/nginx/nginx/blob/master/conf/uwsgi_params
+
+# created /etc/nginx/sites-available and sites-enabled and included sites-enabled into /etc/nginx.cong
+
+# tested nginx can communicate with uwsgi
+# This tested the following stack is working: the web client <-> the web server <-> the socket <-> uWSGI <-> Python
+uwsgi --socket :8001 --wsgi-file test.py
+
+# tested nginx can communite with uwsgi (optionally changing the socket permission)
+uwsgi --socket flexitime.sock --wsgi-file test.py --chmod-socket=664
+
+
+# Running the Django application with uwsgi and nginx
+uwsgi --socket flexitime.sock --module flexitime.wsgi --chmod-socket=664
+
+# Running the django application using uwsgi and nginx using an ini file
+uwsgi --ini local_deployment/flexitime_uwsgi.ini
+
+
+# TODO:
+Do the following bits in docker:
+https://uwsgi.readthedocs.io/en/latest/tutorials/Django_and_nginx.html#install-uwsgi-system-wide
+
+
+TO READ LATER:
+
+* If it doesnt work
+    You may also have to add your user to nginx’s group (which is probably www-data),
+    or vice-versa, so that nginx can read and write to your socket properly.
+
+* beginner nginx guide:
+    http://nginx.org/en/docs/beginners_guide.html
+
+* configuring uWSGI for django:
+    https://docs.djangoproject.com/en/3.0/howto/deployment/wsgi/uwsgi/#configuring-and-starting-the-uwsgi-server-for-django
+
+* Hashicorp's terraform
+    https://www.hashicorp.com/products/terraform/

@@ -16,6 +16,9 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# would need this if I had separate directories for css / js etc.
+# running `python manage.py collectstatic` would copy to /static
+# STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -26,7 +29,9 @@ SECRET_KEY = "au9ortrihuejf^(-m#$j6!dk8km=+np7(q_(7p1$piivzjl0mo"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'flexitime.com',  # this is my /etc/hosts entry for testing.
+]
 
 
 # Application definition
